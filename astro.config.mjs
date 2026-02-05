@@ -2,7 +2,7 @@ import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
 import { remarkMarkdownClasses } from "./src/lib/markdown-remark-plugin.mjs";
-import vercel from "@astrojs/vercel";
+
 
 export default defineConfig({
   site: "https://nitin-cite.vercel.app",
@@ -16,11 +16,7 @@ export default defineConfig({
       },
     ],
   },
-  adapter: vercel({
-      webAnalytics: {
-        enabled: true,
-      },
-  }),
+  output: "static",
   image: {
     domains: ["utfs.io"],
     remotePatterns: [
@@ -38,7 +34,7 @@ export default defineConfig({
     remarkPlugins: [remarkMarkdownClasses],
   },
 
-  output: "hybrid",
+
 
   vite: {
     plugins: [tailwindcss()],
