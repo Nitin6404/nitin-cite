@@ -1,7 +1,18 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { CinemaData } from "@/lib/github";
+
+interface CinemaItem {
+  title: string;
+  description?: string;
+}
+
+interface CinemaData {
+  movies: CinemaItem[];
+  webShows: CinemaItem[];
+  animes: CinemaItem[];
+  gallery: string[];
+}
 
 interface CinemaPageProps {
   initialData: CinemaData;

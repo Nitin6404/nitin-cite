@@ -13,6 +13,13 @@ export type song = {
   link: string;
 };
 
+export type reading = {
+  title: string;
+  type: "book" | "manga" | "web-novel";
+  description?: string;
+  link?: string;
+};
+
 export type code_projects = {
   project_name: string;
   github: string;
@@ -198,6 +205,14 @@ export const movies: movie[] = [
     title: "kengen ashura",
     description: "i loved it. this was very very good.",
   },
+];
+
+export const webSeries: movie[] = [];
+export const anime: movie[] = [];
+export const cinemaGallery: string[] = [];
+
+export const readingItems: reading[] = [
+  // Add your reading items here
 ];
 
 export const socials: social[] = [

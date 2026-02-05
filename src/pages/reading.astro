@@ -1,25 +1,10 @@
 ---
 import ReadingList from "../components/ui/ReadingList";
 import Layout from "../layouts/layout.astro";
-import { fetchGitHubReadme } from "../lib/server-github";
-import { parseReadingFromReadme } from "../lib/github";
+import { readingItems } from "../data";
 
 const siteTitle = "reading";
 const description = "books, manga, web novels and more";
-
-let readingItems: Array<{
-  title: string;
-  type: "book" | "manga" | "web-novel";
-  description?: string;
-  link?: string;
-}> = [];
-
-try {
-  const readme = await fetchGitHubReadme("nitin6404", "reading-list");
-  readingItems = parseReadingFromReadme(readme);
-} catch (error) {
-  console.error("Error fetching reading list:", error);
-}
 ---
 
 <head>

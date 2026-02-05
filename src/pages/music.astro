@@ -1,20 +1,10 @@
 ---
 import { MusicList } from "../components/ui/MusicList";
 import Layout from "../layouts/layout.astro";
-import { fetchGitHubReadme } from "../lib/server-github";
-import { parseMusicFromReadme } from "../lib/github";
+import { songs } from "../data";
 
 const siteTitle = "music";
 const description = "what I'm listening to";
-
-let songs: Array<{ title: string; link: string }> = [];
-
-try {
-  const readme = await fetchGitHubReadme("nitin6404", "music-playlist");
-  songs = parseMusicFromReadme(readme);
-} catch (error) {
-  console.error("Error fetching music playlist:", error);
-}
 ---
 
 <head>

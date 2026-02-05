@@ -3,7 +3,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
 import { remarkMarkdownClasses } from "./src/lib/markdown-remark-plugin.mjs";
 
-
 export default defineConfig({
   site: "https://nitin-cite.vercel.app",
   experimental: {
@@ -33,8 +32,6 @@ export default defineConfig({
     gfm: true,
     remarkPlugins: [remarkMarkdownClasses],
   },
-
-
 
   vite: {
     plugins: [tailwindcss()],

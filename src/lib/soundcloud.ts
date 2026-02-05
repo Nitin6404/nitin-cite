@@ -30,8 +30,12 @@ export async function fetchSoundCloudActivity(
   try {
     // Call our internal API endpoint
     // We use a relative URL so it works in both dev and prod
-    console.log(`Fetching SoundCloud activity for ${username} (${sort}) via proxy...`);
-    const response = await fetch(`/api/soundcloud?username=${username}&sort=${sort}`);
+    console.log(
+      `Fetching SoundCloud activity for ${username} (${sort}) via proxy...`
+    );
+    const response = await fetch(
+      `/api/soundcloud?username=${username}&sort=${sort}`
+    );
 
     if (!response.ok) {
       throw new Error(`API Error: ${response.statusText}`);

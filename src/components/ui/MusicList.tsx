@@ -37,9 +37,10 @@ export function MusicList({ initialSongs }: MusicListProps) {
         ))}
       </div>
       {initialSongs.length === 0 && (
-          <div className="py-20 text-center text-muted-foreground">No tracks found in README.</div>
+        <div className="py-20 text-center text-muted-foreground">
+          No tracks found in README.
+        </div>
       )}
     </div>
   );
 }
-
