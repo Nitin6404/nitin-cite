@@ -1,6 +1,7 @@
 ---
 import { ModeToggle } from "../components/ui/ModeToggle";
 import { VerticalNav } from "../components/ui/VerticalNav";
+import { NowPlaying } from "../components/ui/NowPlaying";
 import { ClientRouter } from "astro:transitions";
 import NavigationTimer from "../components/NavigationTimer.astro";
 import "../styles/global.css";
@@ -59,6 +60,7 @@ const pathname = Astro.url.pathname;
         class="hidden md:flex fixed left-0 top-0 h-full w-24 lg:w-32 px-4 lg:px-6 py-6 lg:py-8 flex-col justify-between z-10"
       >
         <VerticalNav pathname={pathname} client:load />
+        <NowPlaying client:only="react" />
       </aside>
 
       <!-- Main content -->

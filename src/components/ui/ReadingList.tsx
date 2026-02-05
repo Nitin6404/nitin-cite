@@ -1,47 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { fetchGitHubReadme, parseReadingFromReadme } from "@/lib/github";
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function ReadingList() {
+interface ReadingListProps {
+  initialItems: Array<{
+    title: string;
+    type: "book" | "manga" | "web-novel";
+    description?: string;
+    link?: string;
+  }>;
+}
+
+export default function ReadingList({ initialItems }: ReadingListProps) {
   const [activeTab, setActiveTab] = useState<"books" | "manga" | "web-novels">(
     "books"
   );
-  const [reading, setReading] = useState<
-    Array<{
-      title: string;
-      type: "book" | "manga" | "web-novel";
-      description?: string;
-      link?: string;
-    }>
-  >([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-
-        // Fetch reading list from your reading-list README
-        const readingReadme = await fetchGitHubReadme(
-          "nitin6404",
-          "reading-list"
-        );
-        const parsedReading = parseReadingFromReadme(readingReadme);
-        setReading(parsedReading);
-      } catch (error) {
-        console.error("Error fetching reading data:", error);
-        // Fallback to empty array if GitHub fetch fails
-        setReading([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const filteredReading = reading.filter((item) => {
+  const filteredReading = initialItems.filter((item) => {
     if (activeTab === "books") return item.type === "book";
     if (activeTab === "manga") return item.type === "manga";
     if (activeTab === "web-novels") return item.type === "web-novel";
@@ -88,13 +64,7 @@ export default function ReadingList() {
       </div>
 
       {/* Reading List */}
-      {loading ? (
-        <div className="columns-1 sm:columns-2 gap-6 space-y-4">
-          <p className="text-muted-foreground">
-            Loading reading list from GitHub...
-          </p>
-        </div>
-      ) : filteredReading.length === 0 ? (
+      {filteredReading.length === 0 ? (
         <div className="columns-1 sm:columns-2 gap-6 space-y-4">
           <p className="text-muted-foreground">
             No {activeTab === "web-novels" ? "web novels" : activeTab} yet.

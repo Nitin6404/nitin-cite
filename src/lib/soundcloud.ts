@@ -24,12 +24,14 @@ export interface SoundCloudActivity {
  * This calls our own server-side API proxy to avoid CORS issues.
  */
 export async function fetchSoundCloudActivity(
-  username: string
+  username: string,
+  sort: "recent" | "popular" = "recent"
 ): Promise<SoundCloudActivity[]> {
   try {
     // Call our internal API endpoint
     // We use a relative URL so it works in both dev and prod
-    const response = await fetch(`/api/soundcloud?username=${username}`);
+    console.log(`Fetching SoundCloud activity for ${username} (${sort}) via proxy...`);
+    const response = await fetch(`/api/soundcloud?username=${username}&sort=${sort}`);
 
     if (!response.ok) {
       throw new Error(`API Error: ${response.statusText}`);

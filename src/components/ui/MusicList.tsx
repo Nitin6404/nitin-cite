@@ -5,130 +5,77 @@ import {
   fetchSoundCloudActivity,
   type SoundCloudActivity,
 } from "@/lib/soundcloud";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface MusicListProps {
   initialSongs: Array<{ title: string; link: string }>;
 }
 
 export function MusicList({ initialSongs }: MusicListProps) {
-  const [activity, setActivity] = useState<SoundCloudActivity[]>([]);
-  const [loadingActivity, setLoadingActivity] = useState(false);
+  const [recentActivity, setRecentActivity] = useState<SoundCloudActivity[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadActivity = async () => {
-      setLoadingActivity(true);
+    const loadData = async () => {
+      setLoading(true);
       try {
-        // Using the provided username
-        const data = await fetchSoundCloudActivity("nitin6404");
-        setActivity(data);
+        const recent = await fetchSoundCloudActivity("nitin6404", "recent");
+        setRecentActivity(recent);
       } catch (error) {
-        console.error("Failed to load SoundCloud activity", error);
+        console.error("Failed to load SoundCloud data", error);
       } finally {
-        setLoadingActivity(false);
+        setLoading(false);
       }
     };
 
-    loadActivity();
+    loadData();
   }, []);
+
 
   return (
     <div className="w-full space-y-6">
-      <Tabs defaultValue="playlist" className="w-full">
-        <div className="border-b border-muted-foreground/10 pb-2 mb-6">
-          <TabsList className="w-auto justify-start gap-6 bg-transparent p-0 rounded-none h-auto">
-            <TabsTrigger
-              value="playlist"
-              className="rounded-none border-b-2 border-transparent px-0 py-0 data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none bg-transparent text-muted-foreground hover:text-foreground transition-colors font-normal"
-            >
-              playlist
-            </TabsTrigger>
-            <TabsTrigger
-              value="activity"
-              className="rounded-none border-b-2 border-transparent px-0 py-0 data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none bg-transparent text-muted-foreground hover:text-foreground transition-colors font-normal"
-            >
-              recent activity
-            </TabsTrigger>
-          </TabsList>
-        </div>
-
-        <TabsContent value="playlist" className="space-y-4 m-0">
-          <div className="columns-1 sm:columns-2 gap-6 space-y-4">
-            {initialSongs.length === 0 ? (
-              <p className="text-muted-foreground">
-                No songs in the playlist yet.
-              </p>
-            ) : (
-              initialSongs.map((song, index) => (
-                <div
-                  key={`${song.title}-${index}`}
-                  className="break-inside-avoid mb-4 group"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <a
-                    href={song.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block hover:opacity-80 transition-opacity"
-                  >
-                    <h3 className="text-foreground font-normal mb-1 group-hover:underline decoration-1 underline-offset-4">
-                      {song.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {song.link}
-                    </p>
-                  </a>
-                </div>
-              ))
-            )}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="activity" className="space-y-6 m-0">
-          {loadingActivity ? (
-            <p className="text-muted-foreground">
-              Loading SoundCloud activity...
-            </p>
-          ) : activity.length === 0 ? (
-            <p className="text-muted-foreground">No recent activity found.</p>
-          ) : (
-            <div className="grid grid-cols-1 gap-6">
-              {activity.map((item, index) => (
-                <div key={index} className="flex gap-4 items-start group">
-                  {item.origin.artwork_url && (
-                    <img
-                      src={item.origin.artwork_url}
-                      alt={item.origin.title}
-                      className="w-16 h-16 object-cover rounded bg-muted"
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground border border-muted-foreground/20 px-1.5 rounded">
-                        {item.type.replace("track-", "")}
-                      </span>
-                      <time className="text-xs text-muted-foreground">
-                        {new Date(item.created_at).toLocaleDateString()}
-                      </time>
+      {loading ? (
+        <div className="py-20 text-center text-muted-foreground/50 animate-pulse font-serif italic">Loading sound waves...</div>
+      ) : recentActivity.length === 0 ? (
+        <div className="py-20 text-center text-muted-foreground">No tracks found.</div>
+      ) : (
+        <div className="grid grid-cols-1 gap-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+             {recentActivity.map((item, index) => (
+                <div key={index} className="group flex items-center gap-4 py-3 px-2 -mx-2 hover:bg-muted/30 rounded-lg transition-colors border-b border-transparent hover:border-muted-foreground/5">
+                    <div className="relative w-12 h-12 flex-shrink-0 bg-neutral-900 rounded overflow-hidden shadow-sm">
+                         {item.origin.artwork_url ? (
+                            <img src={item.origin.artwork_url} alt="" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                        ) : (
+                            <div className="w-full h-full bg-neutral-800 flex items-center justify-center text-xs text-muted-foreground">♪</div>
+                        )}
+                         {/* Play overlay hint */}
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[8px] border-l-white border-b-[4px] border-b-transparent ml-0.5"></div>
+                        </div>
                     </div>
-                    <a
-                      href={item.origin.permalink_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-foreground hover:underline decoration-1 underline-offset-4 block truncate font-medium"
-                    >
-                      {item.origin.title}
-                    </a>
-                    <p className="text-sm text-muted-foreground">
-                      by {item.origin.user.username}
-                    </p>
-                  </div>
+
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                        <a href={item.origin.permalink_url} target="_blank" rel="noreferrer" className="text-sm font-medium text-foreground truncate hover:underline decoration-1 underline-offset-4 decoration-muted-foreground">
+                            {item.origin.title}
+                        </a>
+                        <div className="flex items-center gap-2 text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">
+                            <span>{item.origin.user.username}</span>
+                            {item.origin.playback_count && (
+                                <>
+                                    <span>•</span>
+                                    <span>{new Intl.NumberFormat('en-US', { notation: "compact" }).format(item.origin.playback_count)} plays</span>
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="text-xs text-muted-foreground/50 font-mono hidden sm:block">
+                        {new Date(item.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                    </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+            ))}
+        </div>
+      )}
     </div>
   );
 }
+

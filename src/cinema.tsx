@@ -1,44 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  fetchGitHubReadme,
-  parseMoviesFromReadme,
-  type CinemaData,
-} from "@/lib/github";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { CinemaData } from "@/lib/github";
 
-export default function CinemaPage() {
-  const [data, setData] = useState<CinemaData>({
-    movies: [],
-    webShows: [],
-    animes: [],
-    gallery: [],
-  });
-  const [loading, setLoading] = useState(true);
+interface CinemaPageProps {
+  initialData: CinemaData;
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-
-        // Fetch movies from your movies README
-        const moviesReadme = await fetchGitHubReadme(
-          "nitin6404",
-          "movies-list"
-        );
-        const parsedData = parseMoviesFromReadme(moviesReadme);
-        setData(parsedData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+export default function CinemaPage({ initialData }: CinemaPageProps) {
   const renderList = (
     items: Array<{ title: string; description?: string }>
   ) => {
@@ -101,50 +70,42 @@ export default function CinemaPage() {
           </TabsList>
         </div>
 
-        {loading ? (
-          <div className="space-y-4">
-            <p className="text-muted-foreground">Loading from GitHub...</p>
-          </div>
-        ) : (
-          <>
-            <TabsContent value="films" className="m-0">
-              {renderList(data.movies)}
-            </TabsContent>
+        <TabsContent value="films" className="m-0">
+          {renderList(initialData.movies)}
+        </TabsContent>
 
-            <TabsContent value="web-shows" className="m-0">
-              {renderList(data.webShows)}
-            </TabsContent>
+        <TabsContent value="web-shows" className="m-0">
+          {renderList(initialData.webShows)}
+        </TabsContent>
 
-            <TabsContent value="anime" className="m-0">
-              {renderList(data.animes)}
-            </TabsContent>
+        <TabsContent value="anime" className="m-0">
+          {renderList(initialData.animes)}
+        </TabsContent>
 
-            <TabsContent value="gallery" className="m-0">
-              {data.gallery.length === 0 ? (
-                <p className="text-muted-foreground">
-                  No images found. Add a <code>## Gallery</code> section with
-                  image links to your README.
-                </p>
-              ) : (
-                <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-                  {data.gallery.map((url, index) => (
-                    <div
-                      key={index}
-                      className="break-inside-avoid mb-4 overflow-hidden rounded-lg bg-muted"
-                    >
-                      <img
-                        src={url}
-                        alt={`Gallery item ${index + 1}`}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                    </div>
-                  ))}
+        <TabsContent value="gallery" className="m-0">
+          {initialData.gallery.length === 0 ? (
+            <p className="text-muted-foreground">
+              No images found. Add a <code>## Gallery</code> section with image
+              links to your README.
+            </p>
+          ) : (
+            <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+              {initialData.gallery.map((url, index) => (
+                <div
+                  key={index}
+                  className="break-inside-avoid mb-4 overflow-hidden rounded-lg bg-muted"
+                >
+                  <img
+                    src={url}
+                    alt={`Gallery item ${index + 1}`}
+                    className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
                 </div>
-              )}
-            </TabsContent>
-          </>
-        )}
+              ))}
+            </div>
+          )}
+        </TabsContent>
       </Tabs>
     </div>
   );
