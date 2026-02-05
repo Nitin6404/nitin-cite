@@ -2,6 +2,7 @@ import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
 import { remarkMarkdownClasses } from "./src/lib/markdown-remark-plugin.mjs";
+import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   experimental: {
@@ -14,6 +15,11 @@ export default defineConfig({
       },
     ],
   },
+  adapter: vercel({
+      webAnalytics: {
+        enabled: true,
+      },
+  }),
   image: {
     domains: ["utfs.io"],
     remotePatterns: [
