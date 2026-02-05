@@ -1,6 +1,6 @@
 <ul>
-<li> currently working on <a target="_blank" href="https://github.com/nitin6404/agentsonweb">agentsonweb</a> (the best background agents).</li>
-<li>revamped <a target="_blank" href='https://github.com/nitin6404/git-acm'>git-acm</a>.</li>
-<li><a target="_blank" href='https://github.com/nitin6404/0bs-chat'>0bs.chat</a> with <a target="_blank" href='https://x.com/barre_of_lube'>mantra</a>.</li>
-<li> worked at <a target="_blank" href='https://supermemoryai.com/'> supermemoryai</a> for a bit, did some ai testing, tested their v2 api version. crazy team. high hopes for'em. </li>
+<li> currently playing with <a target="_blank" href="https://openclaw.ai/">openclaw</a> (the best ai assistant).</li>
+<li>working at <a target="_blank" href='https://thesnowball.agency/'>snowball</a> (ai linkedin content generation 24/7).</li>
+<li> worked at <a target="_blank" href='https://elitehq.co/'> elitehq.co</a> built hiring using ai pipeline :) </li>
+<li> prev. at <a target="_blank" href='https://najcode.vercel.app/'> najcode</a> </li>
 </ul>
