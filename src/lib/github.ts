@@ -1,100 +1,132 @@
-// GitHub README fetching utilities
+// Client-side GitHub utilities
+// This file is safe to import in client components
+
+/**
+ * Fetch README content via our own API proxy.
+ * This avoids using 'fs'/'path' in the browser.
+ */
 export async function fetchGitHubReadme(
   owner: string,
   repo: string,
   filePath: string = ""
 ): Promise<string> {
   try {
-    // For testing with local files, simulate GitHub API
-    if (process.env.NODE_ENV === "development") {
-      const fs = await import("fs/promises");
-      const path = await import("path");
+    const params = new URLSearchParams({ owner, repo });
+    if (filePath) params.append("filePath", filePath);
 
-      let fileName = "";
-      if (repo === "movies-list") fileName = "movies-readme.md";
-      else if (repo === "music-playlist") fileName = "music-readme.md";
-      else if (repo === "reading-list") fileName = "reading-readme.md";
-
-      if (fileName) {
-        const resolvedPath = path.resolve(
-          process.cwd(),
-          "sample-repos",
-          fileName
-        );
-        try {
-          const content = await fs.readFile(resolvedPath, "utf-8");
-          return content;
-        } catch (fileError) {
-          console.log(
-            `Sample file not found: ${resolvedPath}, falling back to GitHub`
-          );
-        }
-      }
-    }
-
-    // Production GitHub API call
-    const url = filePath
-      ? `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`
-      : `https://api.github.com/repos/${owner}/${repo}/readme`;
-
-    const response = await fetch(url);
+    const response = await fetch(`/api/github?${params.toString()}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch README: ${response.statusText}`);
     }
 
     const data = await response.json();
-    const content = atob(data.content);
-    return content;
+    return data.content || "";
   } catch (error) {
-    console.error(
-      `Error fetching GitHub README for ${owner}/${repo}/${filePath}:`,
-      error
-    );
+    console.error("Error fetching GitHub README (client):", error);
     return "";
   }
 }
 
-export function parseMoviesFromReadme(
-  readme: string
-): Array<{ title: string; description?: string }> {
-  const movies: Array<{ title: string; description?: string }> = [];
+// --- Parsers (Safe for both client and server) ---
 
-  // Look for markdown lists with movie titles
+export interface CinemaItem {
+  title: string;
+  description?: string;
+}
+
+export interface CinemaData {
+  movies: CinemaItem[];
+  webShows: CinemaItem[];
+  animes: CinemaItem[];
+  gallery: string[]; // List of image URLs
+}
+
+export function parseMoviesFromReadme(readme: string): CinemaData {
+  const data: CinemaData = {
+    movies: [],
+    webShows: [],
+    animes: [],
+    gallery: [],
+  };
+
   const lines = readme.split("\n");
+  let currentSection: "movies" | "webShows" | "animes" | "gallery" | null =
+    "movies"; // Default to movies if no header found initially
 
   for (const line of lines) {
-    // Match list items (- *, 1., etc.)
+    const lowerLine = line.toLowerCase();
+
+    // Detect section headers
+    if (
+      lowerLine.includes("## movies") ||
+      lowerLine.includes("## films") ||
+      lowerLine === "movies:"
+    ) {
+      currentSection = "movies";
+      continue;
+    } else if (
+      lowerLine.includes("## web shows") ||
+      lowerLine.includes("## shows") ||
+      lowerLine.includes("## tv") ||
+      lowerLine === "web shows:"
+    ) {
+      currentSection = "webShows";
+      continue;
+    } else if (
+      lowerLine.includes("## anime") ||
+      lowerLine.includes("## animes") ||
+      lowerLine === "anime:"
+    ) {
+      currentSection = "animes";
+      continue;
+    } else if (
+      lowerLine.includes("## gallery") ||
+      lowerLine.includes("## images") ||
+      lowerLine === "gallery:"
+    ) {
+      currentSection = "gallery";
+      continue;
+    }
+
+    // Handle Gallery Images (look for ![])
+    if (currentSection === "gallery") {
+      const imageMatch = line.match(/!\[.*?\]\((.*?)\)/);
+      if (imageMatch) {
+        data.gallery.push(imageMatch[1].trim());
+      }
+      continue;
+    }
+
+    // Handle List Items
     const listMatch = line.match(/^[\s]*[-*+]\s+(.+)$/);
     if (listMatch) {
       const content = listMatch[1].trim();
 
-      // Skip if it looks like a header or section
-      if (
-        content.toLowerCase().includes("movies:") ||
-        content.toLowerCase().includes("films:") ||
-        content.toLowerCase().includes("##") ||
-        content.toLowerCase().includes("###")
-      ) {
+      // Skip if it looks like a header (##)
+      if (content.startsWith("#")) {
         continue;
       }
+
+      const item: CinemaItem = { title: content };
 
       // Try to extract title and description
       const parts = content.split(/[-–—]/);
       if (parts.length >= 2) {
-        movies.push({
-          title: parts[0].trim(),
-          description: parts.slice(1).join("-").trim(),
-        });
-      } else {
-        movies.push({
-          title: content,
-          description: undefined,
-        });
+        item.title = parts[0].trim();
+        item.description = parts.slice(1).join("-").trim();
+      }
+
+      if (currentSection === "movies") {
+        data.movies.push(item);
+      } else if (currentSection === "webShows") {
+        data.webShows.push(item);
+      } else if (currentSection === "animes") {
+        data.animes.push(item);
       }
     }
   }
 
-  return movies;
+  return data;
 }
 
 export function parseMusicFromReadme(

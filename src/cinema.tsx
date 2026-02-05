@@ -4,17 +4,17 @@ import { useState, useEffect } from "react";
 import {
   fetchGitHubReadme,
   parseMoviesFromReadme,
-  parseMusicFromReadme,
+  type CinemaData,
 } from "@/lib/github";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function CinemaPage() {
-  const [activeTab, setActiveTab] = useState<"films" | "music">("films");
-  const [movies, setMovies] = useState<
-    Array<{ title: string; description?: string }>
-  >([]);
-  const [songs, setSongs] = useState<Array<{ title: string; link: string }>>(
-    []
-  );
+  const [data, setData] = useState<CinemaData>({
+    movies: [],
+    webShows: [],
+    animes: [],
+    gallery: [],
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,21 +27,10 @@ export default function CinemaPage() {
           "nitin6404",
           "movies-list"
         );
-        const parsedMovies = parseMoviesFromReadme(moviesReadme);
-        setMovies(parsedMovies);
-
-        // Fetch music from your music README or SoundCloud
-        const musicReadme = await fetchGitHubReadme(
-          "nitin6404",
-          "music-playlist"
-        );
-        const parsedSongs = parseMusicFromReadme(musicReadme);
-        setSongs(parsedSongs);
+        const parsedData = parseMoviesFromReadme(moviesReadme);
+        setData(parsedData);
       } catch (error) {
         console.error("Error fetching data:", error);
-        // Fallback to empty arrays if GitHub fetch fails
-        setMovies([]);
-        setSongs([]);
       } finally {
         setLoading(false);
       }
@@ -50,111 +39,113 @@ export default function CinemaPage() {
     fetchData();
   }, []);
 
+  const renderList = (
+    items: Array<{ title: string; description?: string }>
+  ) => {
+    if (items.length === 0) {
+      return (
+        <p className="text-muted-foreground">No items found in this section.</p>
+      );
+    }
+    return (
+      <div className="columns-1 sm:columns-2 gap-6 space-y-4">
+        {items.map((item, index) => (
+          <div
+            key={`${item.title}-${index}`}
+            className="break-inside-avoid mb-4 space-y-1"
+            style={{
+              animationDelay: `${index * 50}ms`,
+            }}
+          >
+            <h3 className="text-foreground font-normal mb-1">{item.title}</h3>
+            {item.description && (
+              <p className="text-muted-foreground leading-relaxed">
+                {item.description}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="w-full space-y-6">
-      {/* Tabs */}
-      <div className="flex gap-6 border-b border-muted-foreground/10 pb-2">
-        <button
-          onClick={() => setActiveTab("films")}
-          className={` transition-colors ${
-            activeTab === "films"
-              ? "text-foreground"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-          type="button"
-        >
-          films
-        </button>
-        <button
-          onClick={() => setActiveTab("music")}
-          className={` transition-colors ${
-            activeTab === "music"
-              ? "text-foreground"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-          type="button"
-        >
-          music
-        </button>
-      </div>
+      <Tabs defaultValue="films" className="w-full">
+        <div className="border-b border-muted-foreground/10 pb-2 mb-6">
+          <TabsList className="w-auto justify-start gap-6 bg-transparent p-0 rounded-none h-auto">
+            <TabsTrigger
+              value="films"
+              className="rounded-none border-b-2 border-transparent px-0 py-0 data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none bg-transparent text-muted-foreground hover:text-foreground transition-colors font-normal"
+            >
+              films
+            </TabsTrigger>
+            <TabsTrigger
+              value="web-shows"
+              className="rounded-none border-b-2 border-transparent px-0 py-0 data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none bg-transparent text-muted-foreground hover:text-foreground transition-colors font-normal"
+            >
+              web shows
+            </TabsTrigger>
+            <TabsTrigger
+              value="anime"
+              className="rounded-none border-b-2 border-transparent px-0 py-0 data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none bg-transparent text-muted-foreground hover:text-foreground transition-colors font-normal"
+            >
+              anime
+            </TabsTrigger>
+            <TabsTrigger
+              value="gallery"
+              className="rounded-none border-b-2 border-transparent px-0 py-0 data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none bg-transparent text-muted-foreground hover:text-foreground transition-colors font-normal"
+            >
+              gallery
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-      {/* Films */}
-      {activeTab === "films" && (
-        <>
-          {loading ? (
-            <div className="columns-1 sm:columns-2 gap-6 space-y-4">
-              <p className="text-muted-foreground">
-                Loading movies from GitHub...
-              </p>
-            </div>
-          ) : movies.length === 0 ? (
-            <div className="columns-1 sm:columns-2 gap-6 space-y-4">
-              <p className="text-muted-foreground">
-                No movies found. Create a <code>movies-list</code> repository
-                with a README.md containing your movie list.
-              </p>
-            </div>
-          ) : (
-            <div className="columns-1 sm:columns-2 gap-6 space-y-4">
-              {movies.map((movie, index) => (
-                <div
-                  key={movie.title}
-                  className="break-inside-avoid mb-4 space-y-1"
-                  style={{
-                    animationDelay: `${index * 50}ms`,
-                  }}
-                >
-                  <h3 className="text-foreground font-normal mb-1">
-                    {movie.title}
-                  </h3>
-                  {movie.description && (
-                    <p className="text-muted-foreground leading-relaxed">
-                      {movie.description}
-                    </p>
-                  )}
+        {loading ? (
+          <div className="space-y-4">
+            <p className="text-muted-foreground">Loading from GitHub...</p>
+          </div>
+        ) : (
+          <>
+            <TabsContent value="films" className="m-0">
+              {renderList(data.movies)}
+            </TabsContent>
+
+            <TabsContent value="web-shows" className="m-0">
+              {renderList(data.webShows)}
+            </TabsContent>
+
+            <TabsContent value="anime" className="m-0">
+              {renderList(data.animes)}
+            </TabsContent>
+
+            <TabsContent value="gallery" className="m-0">
+              {data.gallery.length === 0 ? (
+                <p className="text-muted-foreground">
+                  No images found. Add a <code>## Gallery</code> section with
+                  image links to your README.
+                </p>
+              ) : (
+                <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+                  {data.gallery.map((url, index) => (
+                    <div
+                      key={index}
+                      className="break-inside-avoid mb-4 overflow-hidden rounded-lg bg-muted"
+                    >
+                      <img
+                        src={url}
+                        alt={`Gallery item ${index + 1}`}
+                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-
-      {/* Music */}
-      {activeTab === "music" && (
-        <>
-          {loading ? (
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-4">
-              <p className="text-muted-foreground">
-                Loading music from GitHub...
-              </p>
-            </div>
-          ) : songs.length === 0 ? (
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-4">
-              <p className="text-muted-foreground">
-                No music found. Create a <code>music-playlist</code> repository
-                with a README.md containing your music links.
-              </p>
-            </div>
-          ) : (
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-4">
-              {songs.map((song, index) => (
-                <a
-                  key={song.title}
-                  href={song.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block break-inside-avoid mb-3 text-muted-foreground hover:text-foreground transition-colors"
-                  style={{
-                    animationDelay: `${index * 30}ms`,
-                  }}
-                >
-                  {song.title}
-                </a>
-              ))}
-            </div>
-          )}
-        </>
-      )}
+              )}
+            </TabsContent>
+          </>
+        )}
+      </Tabs>
     </div>
   );
 }

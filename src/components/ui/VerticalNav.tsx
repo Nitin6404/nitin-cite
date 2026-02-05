@@ -1,6 +1,5 @@
 "use client";
 
-import { ModeToggle } from "./ModeToggle";
 import { Socials } from "./socials";
 
 interface VerticalNavProps {
@@ -19,6 +18,7 @@ export function VerticalNav({ pathname }: VerticalNavProps) {
     { path: "/", label: "home" },
     { path: "/cinema", label: "cinema" },
     { path: "/reading", label: "reading" },
+    { path: "/music", label: "music" },
   ];
 
   return (
