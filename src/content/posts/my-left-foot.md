@@ -1,7 +1,7 @@
 ---
 title: "My Left Foot"
 url: "my-left-foot"
-tags: ["movie","daniel-day-lewis"]
+tags: ["movie", "daniel-day-lewis"]
 director: "jim sheridan"
 published: 2025-10-12
 ---

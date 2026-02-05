@@ -2,11 +2,11 @@
 title: "black-bag"
 url: "black-bag"
 tags: ["steven soderbergh", "black-bag"]
-director : "steven soderbergh"
+director: "steven soderbergh"
 published: 2025-05-04
 ---
 
-just watched the "black bag" by sodenbergh.it's a  good film. <br>
+just watched the "black bag" by sodenbergh.it's a good film. <br>
 so here the main spy (micheal fassbender) tries to find the mole in the team. i'm not going to explain the film. i'll tell the things i found interesting. <br>
 
 - so, one and only thing the spy(george)(fassbender) and his wife(katheryn)(Cate Blanchett) care about are each other and they are both can do anything for this even if this means killing someone.<br>
@@ -16,6 +16,4 @@ so here the main spy (micheal fassbender) tries to find the mole in the team. i'
 - it's the same table from where everything starts, and everything ends. when katheryn shoots the culprit. the gun was between her eyes and directed at the culprit. this shot was so good.<br>
 - actually if you see now, we know that within i think like 10-20 minutes we got a hint on who was the culprit. as i think, zoe or dr vaughan asks (Naomie Harris): "how many civilians died as a result ?". james(Rege-Jean Page) answers with "greater good.".
 
-
 well, this is what i found interesting in the movie rn. maybe i'll update in the future, who knows!
-

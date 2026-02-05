@@ -10,6 +10,7 @@ hmm, what do i think about this ?
 masterpiece.<br>
 although the story being a good guy-bad guy story. the way it is presented gives it pretty major edge.
 the animation is bonkers. no like seriously, stuff looks pretty bonkers. when you see it. i can think of few things that make this movie great.
+
 <ul class="pb-3 list-decimal">
 <li>of course, animation.</li>
 <li>the akaza backstory makes it prety emotional and the reason why he's doing stuff. like you begin to develop sympathy for the person who killed rengoku.</li>

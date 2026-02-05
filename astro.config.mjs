@@ -4,36 +4,36 @@ import { defineConfig, fontProviders } from "astro/config";
 import { remarkMarkdownClasses } from "./src/lib/markdown-remark-plugin.mjs";
 
 export default defineConfig({
-	experimental: {
-		fonts: [
-			{
-				name: "JetBrains Mono",
-				cssVariable: "--font-jetbrains-mono",
-				provider: fontProviders.fontshare(),
-				fallbacks: ["monospace"],
-			},
-		],
-	},
-	image: {
-		domains: ["utfs.io"],
-		remotePatterns: [
-			{
-				protocol: "https",
-			},
-		],
-	},
+  experimental: {
+    fonts: [
+      {
+        name: "JetBrains Mono",
+        cssVariable: "--font-jetbrains-mono",
+        provider: fontProviders.fontshare(),
+        fallbacks: ["monospace"],
+      },
+    ],
+  },
+  image: {
+    domains: ["utfs.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+      },
+    ],
+  },
 
-	integrations: [react()],
+  integrations: [react()],
 
-	markdown: {
-		syntaxHighlight: "shiki",
-		gfm: true,
-		remarkPlugins: [remarkMarkdownClasses],
-	},
+  markdown: {
+    syntaxHighlight: "shiki",
+    gfm: true,
+    remarkPlugins: [remarkMarkdownClasses],
+  },
 
-	output: "static",
+  output: "static",
 
-	vite: {
-		plugins: [tailwindcss()],
-	},
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

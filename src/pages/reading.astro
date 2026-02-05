@@ -1,9 +1,9 @@
 ---
-import CinemaComponent from "../cinema";
+import ReadingList from "../components/ui/ReadingList";
 import Layout from "../layouts/layout.astro";
 
-const siteTitle = "cinema";
-const description = "suggest some great cinema";
+const siteTitle = "reading";
+const description = "books, manga, web novels and more";
 ---
 
 <head>
@@ -22,5 +22,5 @@ const description = "suggest some great cinema";
 </head>
 
 <Layout>
-  <CinemaComponent client:only="react" />
+  <ReadingList client:only="react" />
 </Layout>
