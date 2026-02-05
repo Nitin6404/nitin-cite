@@ -5,6 +5,7 @@ import { remarkMarkdownClasses } from "./src/lib/markdown-remark-plugin.mjs";
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
+  site: "https://nitin-cite.vercel.app",
   experimental: {
     fonts: [
       {
@@ -37,7 +38,7 @@ export default defineConfig({
     remarkPlugins: [remarkMarkdownClasses],
   },
 
-  output: "static",
+  output: "hybrid",
 
   vite: {
     plugins: [tailwindcss()],
