@@ -157,6 +157,46 @@ export const songs = [
   },
 ];
 
+// Fight Club
+// Dune
+// Prisoner
+// The Prestige
+// Whiplash
+// Mr Robot
+// Se7en
+// Zodaik
+// Godfather
+// The Prestige
+// Interstellar
+// Inception
+// Night Crawler
+// Enemy
+// Star War
+// The Maze Runner
+// Tenet
+// Shutter Island
+// Openheimer
+// American Psycho
+// 
+
+// Web shows
+// True Detective (s1 only pls)
+// Game of thrones
+// House of dragon
+// Hannibal
+// Money Heist
+// The Suits
+// 
+
+// Anime
+// Death Note
+// Attack on Titan
+// Vinland Saga
+// Black Clover
+// Baaki Hanma
+// One Piece
+// 
+
 export const movies: movie[] = [
   {
     title: "Attack On Titan",
