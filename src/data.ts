@@ -157,98 +157,151 @@ export const songs = [
   },
 ];
 
-// Fight Club
-// Dune
-// Prisoner
-// The Prestige
-// Whiplash
-// Mr Robot
-// Se7en
-// Zodaik
-// Godfather
-// The Prestige
-// Interstellar
-// Inception
-// Night Crawler
-// Enemy
-// Star War
-// The Maze Runner
-// Tenet
-// Shutter Island
-// Openheimer
-// American Psycho
-// 
-
-// Web shows
-// True Detective (s1 only pls)
-// Game of thrones
-// House of dragon
-// Hannibal
-// Money Heist
-// The Suits
-// 
-
-// Anime
-// Death Note
-// Attack on Titan
-// Vinland Saga
-// Black Clover
-// Baaki Hanma
-// One Piece
-// 
-
 export const movies: movie[] = [
   {
-    title: "Attack On Titan",
-    description: "one of my favourites. heartbound. ",
+    title: "Fight Club",
+    description: "where is my mind",
   },
   {
-    title: "FA:Brotherhood(2011)",
-    description: "one of my favourites.",
-  },
-  {
-    title: "Jujutsu Kaisen",
+    title: "Dune",
     description:
-      "best worldbuilding, best power structure. manga is super good.",
+      "The Hand of God be my witness, I am the Voice from the Outer World! I will lead you to PARADISE!",
   },
   {
-    title: "Se7en",
-    description:
-      "simple and sanguinary. ofc by david fincher. what's in the box?",
-  },
-  {
-    title: "Hunter x Hunter(2011)",
-    description: "one of my favourites. reading the manga currently.",
-  },
-  {
-    title: "Whiplash",
-    description: "obsession explained. on the point cast. ",
-  },
-  {
-    title: "Mr Robot",
-    description: "you should watch this. rami malek went godmode.",
+    title: "Prisoners",
+    description: "it a maze",
   },
   {
     title: "The Prestige",
-    description: "a not so much talked about great movie by christopher nolan.",
+    description: "Are you watching closely?",
   },
   {
-    title: "nymphomaniac vol 1&2",
-    description: "one of the most interesting movies i've seen lately.",
+    title: "Whiplash",
+    description: "Were you rushing or were you dragging?",
   },
   {
-    title: "orb: about the movements of earth",
+    title: "Se7en",
+    description: "What's in the box?",
+  },
+  {
+    title: "Zodiac",
+    description: "Just because you can't prove it doesn't mean it isn't true",
+  },
+  {
+    title: "The Godfather",
+    description: "I'm gonna make him an offer he can't refuse.",
+  },
+  {
+    title: "Inception",
     description:
-      "beautiful, it gets better every time you watch it. i can say it's one of my favourites",
+      "An idea is like a virus... It can grow to define or destroy you.",
   },
   {
-    title: "kengen ashura",
-    description: "i loved it. this was very very good.",
+    title: "Nightcrawler",
+    description:
+      "If you want to win the lottery, you have to make the money to buy the ticket.",
+  },
+  {
+    title: "Enemy",
+    description: "there is a pattern",
+  },
+  {
+    title: "Star Wars",
+    description: "Anakin is gone. I am what remains",
+  },
+  {
+    title: "Tenet",
+    description: "Don't try to understand it. Feel it.",
+  },
+  {
+    title: "Shutter Island",
+    description:
+      "Which would be worse – to live as a monster, or to die as a good man?",
+  },
+  {
+    title: "Oppenheimer",
+    description: "Now I am become Death, the destroyer of worlds",
+  },
+  {
+    title: "American Psycho",
+    description: "its just an abstraction, there's no real me",
+  },
+  {
+    title: "Margin Call",
+    description:
+      "It's just money; it's made up. Pieces of paper with pictures on it",
+  },
+  {
+    title: "The Machinist",
+    description: "How do you wake up from a nightmare, if you're not asleep?",
   },
 ];
 
-export const webSeries: movie[] = [];
-export const anime: movie[] = [];
+export const webSeries: movie[] = [
+  {
+    title: "Mr. Robot",
+    description:
+      "top 1% that plays god without permission and now, they are following me",
+  },
+  {
+    title: "True Detective (S1)",
+    description:
+      "human consciousness, is a tragic misstep in evolution. We became too self-aware,",
+  },
+  {
+    title: "Game of Thrones",
+    description: "winter is coming",
+  },
+  {
+    title: "House of the Dragon",
+    description: "History does not remember blood. It remembers names.",
+  },
+  {
+    title: "Hannibal",
+    description: "Killing must feel good to God too. He does it all the time.",
+  },
+  {
+    title: "Money Heist",
+    description: "BELLA CIAO CIAO CIAO!!",
+  },
+  {
+    title: "Suits",
+    description: "I'm not lucky, I make my own luck.",
+  },
+];
+
+export const anime: movie[] = [
+  {
+    title: "Death Note",
+    description: "I've won. Exactly as planned.",
+  },
+  {
+    title: "Attack on Titan",
+    description:
+      "I Just Keep Moving Forward. Until My Enemies Are Destroyed.",
+  },
+  {
+    title: "Vinland Saga",
+    description: "I have no enemies",
+  },
+  {
+    title: "Black Clover",
+    description: "If you die, I'll kill you.",
+  },
+  {
+    title: "Baki Hanma",
+    description: "Only by death is a true warrior defeated.",
+  },
+  {
+    title: "One Piece",
+    description: "The One Piece... is real!",
+  },
+  {
+    title: "Monster",
+    description: "The only thing all humans are equal in is death.",
+  },
+];
+
 export const cinemaGallery: string[] = [];
 
 export const readingItems: reading[] = [
