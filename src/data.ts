@@ -6,6 +6,7 @@ export type social = {
 export type movie = {
   title: string;
   description?: string;
+  image?: string;
 };
 
 export type song = {
@@ -302,7 +303,12 @@ export const anime: movie[] = [
   },
 ];
 
-export const cinemaGallery: string[] = [];
+export const cinemaGallery: string[] = [
+  "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2670&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=2574&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2525&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop",
+];
 
 export const readingItems: reading[] = [
   // Add your reading items here

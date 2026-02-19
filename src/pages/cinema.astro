@@ -2,14 +2,30 @@
 import CinemaComponent from "../cinema";
 import Layout from "../layouts/layout.astro";
 import { movies, webSeries, anime, cinemaGallery } from "../data";
+import { getMovieImage } from "../lib/tmdb";
+
+// Helper to enhance items with images if missing
+async function enhanceItems(items: any[], type: "movie" | "tv") {
+  return Promise.all(
+    items.map(async (item) => {
+      if (item.image) return item; // Use manual image if available
+      const poster = await getMovieImage(item.title, type);
+      return { ...item, image: poster || undefined };
+    })
+  );
+}
+
+const enhancedMovies = await enhanceItems(movies, "movie");
+const enhancedWebSeries = await enhanceItems(webSeries, "tv");
+const enhancedAnime = await enhanceItems(anime, "tv"); // Anime often categorized as TV on TMDB
 
 const siteTitle = "cinema";
 const description = "suggest some great cinema";
 
 const cinemaData = {
-  movies,
-  webShows: webSeries,
-  animes: anime,
+  movies: enhancedMovies,
+  webShows: enhancedWebSeries,
+  animes: enhancedAnime,
   gallery: cinemaGallery,
 };
 ---
